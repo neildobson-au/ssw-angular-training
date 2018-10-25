@@ -15,10 +15,19 @@ export class CompanyListComponent implements OnInit {
   constructor(private companyService: CompanyService) {}
 
   ngOnInit() {
-    this.companies$ = this.companyService.getCompanies()
-      .pipe(
-        tap(x => console.log("TAP - Component", x)),
-        finalize(() => console.log("Finalize: Complete"))
-      );
+    this.loadCompanies();
+  }
+
+  loadCompanies() {
+    this.companies$ = this.companyService.getCompanies().pipe(
+      tap(x => console.log("TAP - Component", x)),
+      finalize(() => console.log("Finalize: Complete"))
+    );
+  }
+
+  deleteCompany(company: Company) {
+    this.companyService
+      .deleteCompany(company)
+      .subscribe(() => this.loadCompanies());
   }
 }
