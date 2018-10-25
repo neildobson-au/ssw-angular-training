@@ -10,7 +10,7 @@ import { tap } from "rxjs/operators";
 export class CompanyService {
   API_BASE = "http://firebootcamp-crm-api.azurewebsites.net/api";
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) { }
 
   getCompanies(): Observable<Company[]> {
     return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
@@ -28,4 +28,5 @@ export class CompanyService {
   private errorHandler<T>(error: Error): Observable<T> {
     console.error("implement custom errort handler here", error);
     return new Observable<T>();
-  } }
+  }
+}
