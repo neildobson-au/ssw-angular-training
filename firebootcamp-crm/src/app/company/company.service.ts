@@ -3,6 +3,7 @@ import { Company } from "./company";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
+import { tap, finalize } from "rxjs/operators";
 
 
 @Injectable({ providedIn: "root" })
@@ -12,9 +13,11 @@ export class CompanyService {
   constructor(private httpClient: HttpClient) {}
 
   getCompanies(): Observable<Company[]> {
-    return this.httpClient
-      .get<Company[]>(`${this.API_BASE}/company`)
-      .pipe(catchError(this.errorHandler));
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`)
+      .pipe(
+        tap(x => console.log("TAP - Service", x)),
+        catchError(this.errorHandler)
+      );
   }
 
   private errorHandler(error: Error): Observable<Company[]> {
