@@ -2,7 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { Company } from "../company";
 import { CompanyService } from "../company.service";
 import { Observable } from "rxjs";
-import { tap, finalize } from 'rxjs/operators';
+import { tap, finalize } from "rxjs/operators";
 
 @Component({
   selector: "fbc-company-list",
@@ -20,9 +20,5 @@ export class CompanyListComponent implements OnInit {
         tap(x => console.log("TAP - Component", x)),
         finalize(() => console.log("Finalize: Complete"))
       );
-  }
-
-  getCompanies() {
-    this.companies$ = this.companyService.getCompanies();
   }
 }
