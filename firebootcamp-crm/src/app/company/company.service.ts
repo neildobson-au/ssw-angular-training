@@ -3,7 +3,7 @@ import { Company } from "./company";
 import { Observable } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
-import { tap, finalize } from "rxjs/operators";
+import { tap } from "rxjs/operators";
 
 
 @Injectable({ providedIn: "root" })
