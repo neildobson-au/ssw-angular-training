@@ -1,16 +1,15 @@
 import { Injectable } from "@angular/core";
 import { Company } from "./company";
+import { Observable } from "rxjs";
+import { HttpClient } from "@angular/common/http";
 
-@Injectable({ providedIn: "root"})
+@Injectable({ providedIn: "root" })
 export class CompanyService {
-  constructor() {}
+  API_BASE = "http://firebootcamp-crm-api.azurewebsites.net/api";
 
-  getCompanies(): Company[] {
-    return [
-      { name: "Company A", phone: 401234632, email: "some@where.com" },
-      { name: "Company B", phone: 406345363, email: "who@where.com" },
-      { name: "Company C", phone: 602634983, email: "me@where.com" },
-      { name: "Company D", phone: 832346943, email: "they@where.com" }
-    ];
+  constructor(private httpClient: HttpClient) {}
+
+  getCompanies(): Observable<Company[]> {
+    return this.httpClient.get<Company[]>(`${this.API_BASE}/company`);
   }
 }
