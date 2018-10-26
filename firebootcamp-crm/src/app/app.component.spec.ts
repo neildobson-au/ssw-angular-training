@@ -1,7 +1,7 @@
 import { AppComponent } from "./app.component";
 import { of } from "rxjs";
 
-let component;
+let component: AppComponent;
 let companySvc;
 
 beforeEach(() => {
