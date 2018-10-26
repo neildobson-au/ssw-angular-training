@@ -20,6 +20,6 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.prodMode = environment.production;
-    this.companyCount$ = this.companyService.getCompanies().pipe(map(c => c.length))
+    this.companyCount$ = this.companyService.getCompanies().pipe(map(c => c.length));
   }
 }
