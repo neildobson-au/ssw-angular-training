@@ -4,11 +4,12 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { catchError } from "rxjs/operators";
 import { tap } from "rxjs/operators";
+import { environment } from "../../environments/environment";
 
 
 @Injectable({ providedIn: "root" })
 export class CompanyService {
-  API_BASE = "http://firebootcamp-crm-api.azurewebsites.net/api";
+  API_BASE = environment.API_BASE;
 
   constructor(private httpClient: HttpClient) {
     this.loadCompanies();
@@ -17,10 +18,15 @@ export class CompanyService {
   private companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
 
   loadCompanies() {
-    this.httpClient.get<Company[]>(`${this.API_BASE}/company`).pipe(
-      tap(x => console.log("TAP - Service", x)),
-      catchError(e => this.errorHandler<Company[]>(e))
-    ).subscribe(c => { this.companies$.next(c); });
+    this.httpClient
+      .get<Company[]>(`${this.API_BASE}/company`)
+      .pipe(
+        tap(x => console.log("TAP - Service", x)),
+        catchError(e => this.errorHandler<Company[]>(e))
+      )
+      .subscribe(c => {
+        this.companies$.next(c);
+      });
   }
 
   getCompanies(): Observable<Company[]> {
