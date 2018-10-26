@@ -1,13 +1,14 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <h5>
-    There are {{ companyCount$ | async}} companies currently in CRM
-  </h5>
-</div>
-
+<nav class="navbar navbar-light bg-faded">
+  <a class="navbar-brand" [routerLink]="['/']">FireBootCamp CRM</a>
+  <ul class="navbar-nav ml-auto">
+    <li class="nav-item mr-2" [routerLinkActive]="'active'">
+      <a class="nav-link" [routerLink]="['/company/list']">Companies ({{ companyCount$ | async }})</a>
+    </li>
+    <li class="nav-item" [routerLinkActive]="'active'">
+      <a class="nav-link" [routerLink]="['/admin']">Admin</a>
+    </li>
+  </ul>
+</nav>
 <div class="container">
   <router-outlet></router-outlet>
 </div>
