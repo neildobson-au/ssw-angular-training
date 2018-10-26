@@ -11,7 +11,7 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 })
 export class CompanyEditComponent implements OnInit {
   company = {} as Company;
-  companyId: any;
+  companyId: number;
   isNewCompany: boolean;
   companyForm: FormGroup;
 
@@ -23,13 +23,12 @@ export class CompanyEditComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.companyId = ~~this.activatedRoute.snapshot.params["id"];
+    this.companyId = parseInt(this.activatedRoute.snapshot.params["id"], 10);
     this.isNewCompany = this.companyId === 0;
     this.buildForm();
 
     if (!this.isNewCompany) {
-      // TODO:
-      // this.getCompany();
+      this.getCompany();
     }
   }
 
@@ -43,8 +42,21 @@ export class CompanyEditComponent implements OnInit {
 
   saveCompany(): void {
     if (this.isNewCompany) {
-      this.companyService.addCompany(this.companyForm.value)
-        .subscribe(() => this.router.navigate(["/company/list"]));
+      this.companyService
+        .addCompany(this.companyForm.value)
+        .subscribe(() => this.router.navigateByUrl("/company/list"));
+    } else {
+      const newCompany = { ...this.companyForm.value, id: this.companyId };
+      this.companyService
+        .updateCompany(newCompany)
+        .subscribe(() => this.router.navigateByUrl("/company/list"));
     }
+  }
+
+  getCompany(): void {
+    this.companyService.getCompany(this.companyId)
+      .subscribe(company => {
+        this.companyForm.patchValue(company);
+      });
   }
 }
