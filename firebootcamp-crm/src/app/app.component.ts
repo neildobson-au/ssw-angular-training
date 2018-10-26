@@ -12,14 +12,14 @@ import { map } from "rxjs/operators";
 export class AppComponent implements OnInit {
   prodMode: boolean;
   companyCount$: Observable<number>;
-  title = "firebootcamp-crm";
+  title = "Angular Superpowers";
 
-  constructor(
-    private companyService: CompanyService
-  ) { }
+  constructor(private companyService: CompanyService) {}
 
   ngOnInit(): void {
     this.prodMode = environment.production;
-    this.companyCount$ = this.companyService.getCompanies().pipe(map(c => c.length));
+    this.companyCount$ = this.companyService
+      .getCompanies()
+      .pipe(map(c => c.length));
   }
 }

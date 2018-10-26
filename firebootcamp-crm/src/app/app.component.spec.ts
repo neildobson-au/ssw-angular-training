@@ -1,35 +1,41 @@
-import { TestBed, async } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { AppComponent } from './app.component';
+import { AppComponent } from "./app.component";
+import { of } from "rxjs";
 
-describe('AppComponent', () => {
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        AppComponent
-      ],
-    }).compileComponents();
-  }));
+let component;
+let companySvc;
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+beforeEach(() => {
+  companySvc = {
+    getCompanies: () => { }
+  };
+  component = new AppComponent(companySvc);
+});
+
+describe(`Component: App Component`, () => {
+  it("add 1+1 - PASS", () => {
+    expect(1 + 1).toEqual(2);
   });
 
-  it(`should have as title 'firebootcamp-crm'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('firebootcamp-crm');
+  it(`title equals 'Angular Superpowers'`, () => {
+    expect(component.title).toEqual("Angular Superpowers");
   });
 
-  it('should render title in a h1 tag', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to firebootcamp-crm!');
+  it(`companyCount = 2`, () => {
+    spyOn(companySvc, "getCompanies").and.returnValue(of([
+        {
+          name: "Fake Company A",
+          email: "fakeEmail@ssw.com.au",
+          number: 12345
+        },
+        {
+          name: "Fake Company B",
+          email: "fakeEmail@ssw.com.au",
+          number: 12345
+        }
+      ]));
+    component.ngOnInit();
+    component.companyCount$.subscribe(c => {
+      expect(c).toEqual(2);
+    });
   });
 });
