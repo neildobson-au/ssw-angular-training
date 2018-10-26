@@ -14,7 +14,7 @@ export class CompanyService {
     this.loadCompanies();
   }
 
-  companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
+  private companies$: BehaviorSubject<Company[]> = new BehaviorSubject<Company[]>([]);
 
   loadCompanies() {
     this.httpClient.get<Company[]>(`${this.API_BASE}/company`).pipe(
@@ -34,14 +34,14 @@ export class CompanyService {
   }
 
   deleteCompany(company: Company) {
-    return this.httpClient
+    this.httpClient
       .delete<Company>(`${this.API_BASE}/company/${company.id}`)
       .pipe(catchError(e => this.errorHandler<Company>(e)))
       .subscribe(() => this.loadCompanies());
   }
 
   addCompany(company: Company) {
-    return this.httpClient
+    this.httpClient
       .post<Company>(`${this.API_BASE}/company`, company, {
         headers: new HttpHeaders().set("content-type", "application/json")
       })
@@ -50,7 +50,7 @@ export class CompanyService {
   }
 
   updateCompany(company: Company) {
-    return this.httpClient
+    this.httpClient
       .put<Company>(`${this.API_BASE}/company/${company.id}`, company, {
         headers: new HttpHeaders().set("content-type", "application/json")
       })
